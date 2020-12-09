@@ -43,25 +43,19 @@ def func():
               '0. Выход')
         a = int(input())
         if a == 1:
-            fio = "INSERT INTO `students` (`Номер`,`Фамилия`, `Имя`, `Отчество`)" + " values (%s, %s, %s, %s);"
+            fio = "INSERT INTO `students` (`Фамилия`, `Имя`, `Отчество`)" + " values ( %s, %s, %s);"
 
-            print('Вот уже существующие данные')
-            cursor.execute("""SELECT * FROM students;""")
-            print(cursor.fetchall())
-            print('Я еще не поняла как вывести последнее номер студента, так что введите сами, пожалуйста')
-
-            number = str(int(input()) + 1)
             print('Введите Фамилию')
-
             f = str(input())
-            print('Введите Имя')
 
+            print('Введите Имя')
             name = str(input())
+
             print('Введите Отчество')
 
             ot = str(input())
 
-            cursor.execute(fio, (number, f, name, ot))
+            cursor.execute(fio, (f, name, ot))
             con.commit()
             func()
         if a == 2:
@@ -70,6 +64,7 @@ def func():
                   '2. Имя студента''\n'
                   '3. Отчество студента''\n'
                   '4. ФИО студента''\n'
+                  '5. Номер студента(ток на тот которого нет)'
                   )
             up = int(input())
             if up == 1:
@@ -111,6 +106,14 @@ def func():
 
                 update = "UPDATE `students` SET `Фамилия` = %s, `Имя` = %s, `Отчество` = %s WHERE `Номер` =%s"
                 cursor.execute(update, (num2, num3, num4, num1))
+                con.commit()
+            if up == 5:
+                print('Номер студента информацию о котором нужно изменить?')
+                num1 = input()
+                print('На какой номер нужно изменить?')
+                num2 = input()
+                update = "UPDATE `students` SET `Номер` =%s WHERE `Номер` =%s"
+                cursor.execute(update, (num2, num1))
                 con.commit()
             func()
         if a == 3:
